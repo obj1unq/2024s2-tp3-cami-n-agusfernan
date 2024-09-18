@@ -51,6 +51,22 @@ object camion {
 	method objetosNoSuperanNivel(nivel) {
 		return cosas.all({cosa => cosa.nivelPeligrosidad() < nivel})
 	}
+
+	method tieneAlgoQuePesaEntre(min, max) {
+		return cosas.any({cosa => (cosa.peso() > min and cosa.peso() < max)}) // Preguntar si esta bien o se puede hacer una subtarea en el bloque.
+	}
+
+	method cosaMasPesada() {
+		return cosas.max({cosa => cosa.peso()})
+	}
+
+	method pesos() {
+		return cosas.map({cosa => cosa.peso()}).asList()
+	}
+
+	method totalBultos() {
+		return cosas.sum({cosa => cosa.bultos()})
+	}
 }
 
 
