@@ -53,7 +53,7 @@ object camion {
 	}
 
 	method tieneAlgoQuePesaEntre(min, max) {
-		return cosas.any({cosa => (cosa.peso() > min and cosa.peso() < max)}) // Preguntar si esta bien o se puede hacer una subtarea en el bloque.
+		return cosas.any({cosa => cosa.peso().between(min, max)}) 
 	}
 
 	method cosaMasPesada() {

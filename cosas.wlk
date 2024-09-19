@@ -4,6 +4,9 @@ object knightRider {
 	method bultos() { return 1}
 
 	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() { // No hace nada
+	}
 }
 
 // Bumblebee
@@ -24,6 +27,12 @@ object bumblebee {
 
 	method estadoActual(_estado) {
 		estadoActual = _estado
+	}
+
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		estadoActual = robot
 	}
 }
 
@@ -55,19 +64,25 @@ object paqueteDeLadrillos {
 		return 2
 	}
 
-	method bultos() { // Preguntar como se pdoria solucionar sin anidar IFs
-		if (cantidadLadrillos <= 100) {
-		return	1
+	method bultos() { 
+		return if (cantidadLadrillos <= 100) {
+		1
 		} else if (cantidadLadrillos > 100 and cantidadLadrillos <= 300) {
-			return 2
+		2
 		} else {
-			return 3
+		3
 		}
+	}
+
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		cantidadLadrillos = cantidadLadrillos + 12
 	}
 }
 
 object arenaAGranel {
-	var property peso = 0 // Ver si esta mal por el polimorfismo, yo creo que no porque el getter sera .peso()
+	var property peso = 0 
 
 	method nivelPeligrosidad() {
 		return 1
@@ -75,27 +90,66 @@ object arenaAGranel {
 
 	method bultos() { return 1}
 
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		peso = peso + 20
+	}
 }
 
 object bateriaAntiaerea { // Ver si esta bien
-	var estaConMisiles = false
+	var estado = cargado
 
 	method peso() {
-		return if (estaConMisiles) 300 else 200
+		return estado.peso()
 	}
 
 	method nivelPeligrosidad() {
-		return if (estaConMisiles) 100 else 0
+		return estado.nivelPeligro()
 	}
 
-	method estaConMisiles(estado) {
-		estaConMisiles = estado
+	method estado(_estado) {
+		estado = _estado
 	}
 
 	method bultos() {
-		return if (estaConMisiles) 2 else 1
+		return estado.bulto()
+	}
+
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		estado = cargado
 	}
 }
+
+object cargado {
+	method peso() {
+		return 300
+	}
+
+	method nivelPeligro() {
+	  return 100
+	}
+
+	method bulto() {
+		return 2
+	}
+}
+
+object descargado {
+	method peso() {
+		return 200
+	}
+
+	method nivelPeligro() {
+		return 0
+	}
+
+	method bulto() {
+		return 1
+	}
+} 
 
 object contenedorPortuario {
 	const pesoBase = 100
@@ -116,16 +170,28 @@ object contenedorPortuario {
 	method bultos() {
 		return 1 + cosas.sum({cosa => cosa.bultos()})
 	}
+
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		cosas.forEach({cosa => cosa.cargada()})
+	}
 }
 
 object residuoRadioactivo {
-	var property peso = 0 // Ver si esta mal por el polimorfismo, yo creo que no porque el getter sera .peso()
+	var property peso = 0 
 
 	method nivelPeligrosidad() {
 		return 200
 	}
 
 	method bultos() { return 1}
+
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		peso = peso + 15
+	}
 
 }
 
@@ -144,5 +210,11 @@ object embalajeDeSeguridad {
 
 	method nivelPeligrosidad() {
 		return	cosa.nivelPeligrosidad() / 2
+	}
+
+	method esPar() { return self.peso() % 2 == 0 }
+
+	method cargada() {
+		
 	}
 }
