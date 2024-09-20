@@ -8,7 +8,7 @@ object camion {
 		self.validarSiEstaExcedidoDePeso()
 		self.validarSiPuedeTransportarPorCamino(camino)
 		self.validarSiPuedeDescargarEnDestino(destino)
-		cosas.union(destino.cosas())
+		cosas.forEach({cosa => destino.agregar(cosa)})
 		cosas.clear()
 	}
 
@@ -25,7 +25,7 @@ object camion {
 	}
 
 	method validarSiPuedeDescargarEnDestino(destino) {
-		return if (cosas.totalBultos() + destino.totalBultos() > destino.bultosMaximos()) {
+		return if (self.totalBultos() + destino.totalBultos() > destino.bultosMaximos()) {
 			self.error ("El camion no puede descargar en el destino asignado, ya que supera los bultos maximos permitidos")
 		}
 	}
@@ -100,9 +100,14 @@ object almacen {
 	const property cosas = #{}
 	const property bultosMaximos = 3
 
+	method agregar(cosa) {
+		cosas.add(cosa)
+	} 
+
 	method totalBultos() {
 		return cosas.sum({cosa => cosa.bultos()})
 	}
+
 }
 
 // Caminos

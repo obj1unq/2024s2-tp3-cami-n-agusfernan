@@ -155,6 +155,10 @@ object contenedorPortuario {
 	const pesoBase = 100
 	const cosas = #{}
 
+	method agregar(cosa) {
+		cosas.add(cosa)
+	}
+
 	method peso() {
 		return pesoBase + cosas.sum({cosa => cosa.peso()})
 	}
