@@ -1,8 +1,8 @@
 import cosas.*
 
-object camion {
+class Camion {
 	const property cosas = #{}
-	const tara = 1000
+	const tara = null
 
 	method transportar(destino, camino) {
 		self.validarSiEstaExcedidoDePeso()

@@ -49,8 +49,8 @@ object robot {
 }
 // Hasta aca Bumblebee
 
-object paqueteDeLadrillos {
-	var cantidadLadrillos = 0
+class PaqueteDeLadrillos {
+	var cantidadLadrillos = null
 
 	method cantidadLadrillos(cantLadrillos) {
 		cantidadLadrillos = cantLadrillos
@@ -81,7 +81,7 @@ object paqueteDeLadrillos {
 	}
 }
 
-object arenaAGranel {
+class ArenaAGranel {
 	var property peso = 0 
 
 	method nivelPeligrosidad() {
@@ -97,7 +97,7 @@ object arenaAGranel {
 	}
 }
 
-object bateriaAntiaerea { // Ver si esta bien
+object bateriaAntiaerea { // Se puede hacer como una class
 	var estado = cargado
 
 	method peso() {
@@ -151,11 +151,11 @@ object descargado {
 	}
 } 
 
-object contenedorPortuario {
+class ContenedorPortuario {
 	const pesoBase = 100
 	const cosas = #{}
 
-	method agregar(cosa) {
+	method agregar(cosa) { // Ver si es necesario ahora que es una clase.
 		cosas.add(cosa)
 	}
 
@@ -182,8 +182,8 @@ object contenedorPortuario {
 	}
 }
 
-object residuoRadioactivo {
-	var property peso = 0 
+ class ResiduoRadioactivo {
+	var property peso = null
 
 	method nivelPeligrosidad() {
 		return 200
@@ -199,7 +199,7 @@ object residuoRadioactivo {
 
 }
 
-object embalajeDeSeguridad {
+class EmbalajeDeSeguridad {
 	var cosa = null
 
 	method bultos() { return 2}

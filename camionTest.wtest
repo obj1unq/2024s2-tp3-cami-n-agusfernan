@@ -4,78 +4,88 @@ describe "Tests generales de camion y cosas" {
     
     // Tests de Validacion - excepciones
     test "No puede transportar a Knight Rider, Bumblebee y Bateria Antiaerea, la cual esta cargada, porque esta excedido de peso"{
-        camion.cargar(knightRider)
-        camion.cargar(bumblebee)
-        camion.cargar(bateriaAntiaerea) // Esta iniciado en cargado, asi que el peso sera 300
-        assert.throwsExceptionWithMessage("No se puede transportar, ¡el camion esta excedido de peso!", {camion.transportar(almacen, ruta9)})
+        const camion1 = new Camion(tara = 1000)
+        camion1.cargar(knightRider)
+        camion1.cargar(bumblebee)
+        camion1.cargar(bateriaAntiaerea) // Esta iniciado en cargado, asi que el peso sera 300
+        assert.throwsExceptionWithMessage("No se puede transportar, ¡el camion esta excedido de peso!", {camion1.transportar(almacen, ruta9)})
     }
 
     test "No puede transportar a Knight Rider y Bumblebee por la Ruta 9" {
-        camion.cargar(knightRider)
-        camion.cargar(bumblebee)
-        assert.throwsExceptionWithMessage("El camion no puede viajar por el camino asignado", {camion.transportar(almacen, ruta9)})
+        const camion1 = new Camion(tara = 1000)
+        camion1.cargar(knightRider)
+        camion1.cargar(bumblebee)
+        assert.throwsExceptionWithMessage("El camion no puede viajar por el camino asignado", {camion1.transportar(almacen, ruta9)})
     }
 
     test "No puede descargar en el almacen el paquete de Ladrillos" {
-        paqueteDeLadrillos.cantidadLadrillos(305)
+        const camion1 = new Camion(tara = 1000)
+        const paqueteDeLadrillos1 = new PaqueteDeLadrillos(cantidadLadrillos = 300)
         almacen.agregar(bumblebee)
-        camion.cargar(paqueteDeLadrillos)
-        assert.throwsExceptionWithMessage("El camion no puede descargar en el destino asignado, ya que supera los bultos maximos permitidos", {camion.transportar(almacen, ruta9)})
+        camion1.cargar(paqueteDeLadrillos1)
+        assert.throwsExceptionWithMessage("El camion no puede descargar en el destino asignado, ya que supera los bultos maximos permitidos", {camion1.transportar(almacen, ruta9)})
     }
 
     test "El camion transporta a Knight Rider y Bumblebee por un camino vecinal" {
+        const camion1 = new Camion(tara = 1000)
         caminoVecinal.pesoTolerado(3000)
-        camion.cargar(knightRider)
-        camion.cargar(bumblebee)
-        camion.transportar(almacen, caminoVecinal)
+        camion1.cargar(knightRider)
+        camion1.cargar(bumblebee)
+        camion1.transportar(almacen, caminoVecinal)
         assert.equals(#{knightRider, bumblebee}, almacen.cosas())
     }
 
 // Algunos tests de funcionalidad de metodos de camion
 
     test "El camion se carga con Knight Rider, Bumblebee, Arena a Granel y Bateria Antiaerea, y se descargan estas ultimas dos" {
-        camion.cargar(knightRider)
-        camion.cargar(bumblebee)
-        camion.cargar(arenaAGranel)
-        camion.cargar(bateriaAntiaerea)
-        assert.equals(#{knightRider, bumblebee, arenaAGranel, bateriaAntiaerea}, camion.cosas())
-        camion.descargar(arenaAGranel)
-        camion.descargar(bateriaAntiaerea)
-        assert.equals(#{knightRider, bumblebee}, camion.cosas())
+        const camion1 = new Camion(tara = 1000)
+        const arenaAGranel1 = new ArenaAGranel(peso = 100)
+        camion1.cargar(knightRider)
+        camion1.cargar(bumblebee)
+        camion1.cargar(arenaAGranel1)
+        camion1.cargar(bateriaAntiaerea)
+        assert.equals(#{knightRider, bumblebee, arenaAGranel1, bateriaAntiaerea}, camion1.cosas())
+        camion1.descargar(arenaAGranel1)
+        camion1.descargar(bateriaAntiaerea)
+        assert.equals(#{knightRider, bumblebee}, camion1.cosas())
     }
 
     test "El camion se carga con Knight Rider y con residuo radioactivo, el cual tiene un peso de 300 kilos, no esta excedido de peso y el de nivel de peligrosidad 200 es el residuo radioactivo" {
-        residuoRadioactivo.peso(300)
-        camion.cargar(knightRider)
-        camion.cargar(residuoRadioactivo)
-        assert.notThat(camion.excedidoDePeso())
-        assert.equals(residuoRadioactivo, camion.elDelNivel(200))
+        const camion1 = new Camion(tara = 1000)
+        const residuoRadioactivo1 = new ResiduoRadioactivo(peso = 300)
+        camion1.cargar(knightRider)
+        camion1.cargar(residuoRadioactivo1)
+        assert.notThat(camion1.excedidoDePeso())
+        assert.equals(residuoRadioactivo1, camion1.elDelNivel(200))
     }
 
     test "El camion se carga con Bumblebee transformado en robot y un contenedor portuario cargado con Knight Rider y Bateria Antiaerea descargada, y devuelve al robot y al contenedor como objetos mas peligrosos que la Arena a Granel" {
+        const camion1 = new Camion(tara = 1000)
+        const contenedorPortuario1 = new ContenedorPortuario(cosas = #{knightRider, bateriaAntiaerea})
+        const arenaAGranel1 = new ArenaAGranel()
         bumblebee.estadoActual(robot)
-        contenedorPortuario.agregar(knightRider)
         bateriaAntiaerea.estado(descargado)
-        contenedorPortuario.agregar(bateriaAntiaerea)
-        camion.cargar(contenedorPortuario)
-        camion.cargar(bumblebee)
-        assert.equals(#{bumblebee, contenedorPortuario}, camion.objetosMasPeligrososQue(arenaAGranel))
+        camion1.cargar(contenedorPortuario1)
+        camion1.cargar(bumblebee)
+        assert.equals(#{bumblebee, contenedorPortuario1}, camion1.objetosMasPeligrososQue(arenaAGranel1))
     }
 
     test "El camion esta cargado con un paquete de ladrillos con 500 ladrillos y Knight Rider y no tiene nada cargado que pese entre 0 y 400" {
-        paqueteDeLadrillos.cantidadLadrillos(500)
-        camion.cargar(paqueteDeLadrillos)
-        camion.cargar(knightRider)
-        assert.equals(#{paqueteDeLadrillos, knightRider}, camion.cosas())
-        assert.notThat(camion.tieneAlgoQuePesaEntre(0, 400))
+        const camion1 = new Camion(tara = 1000)
+        const paqueteDeLadrillos2 = new PaqueteDeLadrillos(cantidadLadrillos = 500)
+        camion1.cargar(paqueteDeLadrillos2)
+        camion1.cargar(knightRider)
+        assert.equals(#{paqueteDeLadrillos2, knightRider}, camion1.cosas())
+        assert.notThat(camion1.tieneAlgoQuePesaEntre(0, 400))
     }
 
         test "El camion esta cargado con un paquete de ladrillos con 500 ladrillos y Knight Rider y no tiene nada cargado que pese entre 900 y 1500 y la cosa mas pesada es el paquete de ladrillos" {
-        paqueteDeLadrillos.cantidadLadrillos(500)
-        camion.cargar(paqueteDeLadrillos)
-        camion.cargar(knightRider)
-        assert.equals(#{paqueteDeLadrillos, knightRider}, camion.cosas())
-        assert.that(camion.tieneAlgoQuePesaEntre(900, 1500))
-        assert.equals(paqueteDeLadrillos, camion.cosaMasPesada())
+        const camion1 = new Camion(tara = 1000)
+        const paqueteDeLadrillos2 = new PaqueteDeLadrillos(cantidadLadrillos = 500)
+        camion1.cargar(paqueteDeLadrillos2)
+        camion1.cargar(knightRider)
+        assert.equals(#{paqueteDeLadrillos2, knightRider}, camion1.cosas())
+        assert.that(camion1.tieneAlgoQuePesaEntre(900, 1500))
+        assert.equals(paqueteDeLadrillos2, camion1.cosaMasPesada())
     }
 }
